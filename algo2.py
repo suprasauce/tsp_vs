@@ -2,10 +2,31 @@ import pygame as py, colors, main as m
 
 mini= 1000000009
 minimumpath=[]
+
+# globals
+city_states = {}
+cities = {}
+adj = []
+edges = []
+
+
+def init_globals(x, y, z):
+    global city_states
+    global cities
+    global adj
+    city_states = x
+    cities = y
+    adj = z
+
+
 def findpath(current,visited,costmatrix,cost,path,n):
     global mini
     global minimumpath
     visited[current]=True
+    city_states[current] = colors.LIGHT_PURPLE
+    m.update_screen(cities, city_states,1)
+    city_states[current] = colors.GREEN
+    m.update_screen(cities, city_states, 1)
     flag=1
     for i in range(n):
         if visited[i]==False:
@@ -19,6 +40,9 @@ def findpath(current,visited,costmatrix,cost,path,n):
             mini=cost
             minimumpath=path[:]
     visited[current]=False
+    city_states[current] = colors.RED
+    m.update_screen(cities, city_states, 1)
+
 
 
 
@@ -36,10 +60,9 @@ def main():
                        [ 20, 25, 30, 0 ]]
     path=[0]
     findpath(0,visited,costmatrix,0,path,n)
-    print(mini)
-    print(minimumpath)
+    
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

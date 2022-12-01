@@ -1,4 +1,4 @@
-import pygame as py, constants, colors, math, algo, time, sys
+import pygame as py, constants, colors, math, algo, time, sys,algo2
 
 py.init()
 
@@ -115,11 +115,20 @@ def main():
         #call permute if len >= 5
         if permute_call:
             n = len(adj)
-            nodes = [x for x in range(n)]
-            algo.init_globals(city_states, cities, adj)
-            algo.permute(0, n, nodes, adj)
+            # -- algo1 --
+            # nodes = [x for x in range(n)]
+            # algo.init_globals(city_states, cities, adj)
+            # algo.permute(0, n, nodes, adj)
+            # print(algo.mini)
+
+            #--algo2--
+            algo2.init_globals(city_states, cities, adj)
+            visited=[False for i in range(n)]
+            path=[0]
+            algo2.findpath(0,visited,adj,0,path,n)
+
             run = False
-            print(algo.mini)
+            print(algo2.mini)
         
         
 if __name__ == "__main__":
