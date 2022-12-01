@@ -1,4 +1,4 @@
-import pygame as py, constants, colors
+import pygame as py, constants, colors, math
 
 py.init()
 
@@ -20,16 +20,29 @@ def delete_city(cities, mouse_rect):
     for city in list(cities.keys()):
         if py.Rect.colliderect(cities[city], mouse_rect):
             del cities[city]
+        
+def get_distance(a, b):
+    return math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2)
+
+def update_weights(cities):
+    adj = []
+    for city_1 in cities.keys():
+        temp = []
+        for city_2 in cities.keys():
+            temp.append(get_distance(city_1, city_2))
+        adj.append(temp)
+    return adj
 
 def main():
     run = True
     mouse_pos = ()
     cities = {}
+    adj = []
     left_click = 0
     right_click = 0
     while run:
         clock.tick(constants.FPS)
-        screen.fill(colors.LIGHT_PURPLE)
+        screen.fill(colors.BLACK)
         for event in py.event.get():
             if event.type == py.QUIT:
                 run = False
@@ -39,17 +52,22 @@ def main():
                 mouse_pos = py.mouse.get_pos()
                 if left_click:
                     insert_city(cities, mouse_pos)
+                    adj = update_weights(cities)
                 else:
                     mouse_rect = py.Rect(mouse_pos[0], mouse_pos[1], 1,1)
                     delete_city(cities, mouse_rect)
-
+                    adj = update_weights(cities)
 
         mouse_state = py.mouse.get_pressed()
         left_click = mouse_state[0]
         right_click = mouse_state[2]
 
         for city in cities:
-            py.draw.circle(screen, colors.RED, city, constants.RADIUS, 2)
+            py.draw.circle(screen, colors.RED, city, constants.RADIUS)
+
+        for city_1 in cities.keys():
+            for city_2 in cities.keys():
+                py.draw.line(screen,colors.WHITE, city_1, city_2, 2)
         
         py.display.update()
 
