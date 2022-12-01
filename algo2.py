@@ -48,7 +48,6 @@ def findpath(current,visited,cost,path,n):
         m.update_screen(cities, city_states, 1, edges)
     visited[current]=False
     city_states[current] = colors.RED
-    #m.update_screen(cities, city_states, 1, edges)
 
 
 
