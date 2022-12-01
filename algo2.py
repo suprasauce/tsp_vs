@@ -71,5 +71,5 @@ def findpath(current,visited,cost,path,n):
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
