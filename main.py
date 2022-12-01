@@ -33,6 +33,13 @@ def update_weights(cities):
         adj.append(temp)
     return adj
 
+def update_city_state(city , city_states, color):
+    city_states[city] = color
+
+def draw_cities(cities, city_states):
+    for i, city in enumerate(list(cities.keys())):
+        py.draw.circle(screen, city_states[i], city, constants.RADIUS)
+
 def main():
     run = True
     mouse_pos = ()
@@ -40,6 +47,7 @@ def main():
     adj = []
     left_click = 0
     right_click = 0
+    city_states = {}
     while run:
         clock.tick(constants.FPS)
         screen.fill(colors.BLACK)
@@ -62,12 +70,16 @@ def main():
         left_click = mouse_state[0]
         right_click = mouse_state[2]
 
-        for city in cities:
-            py.draw.circle(screen, colors.RED, city, constants.RADIUS)
+        for i in range(len(adj)):
+            update_city_state(i, city_states, colors.RED)
+
+        draw_cities(cities, city_states)
 
         for city_1 in cities.keys():
             for city_2 in cities.keys():
                 py.draw.line(screen,colors.WHITE, city_1, city_2, 2)
+
+        #call rec
         
         py.display.update()
 
