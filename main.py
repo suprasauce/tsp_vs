@@ -1,4 +1,4 @@
-import pygame as py, constants, colors, math, algo, time, sys
+import pygame as py, constants, colors, math, algo2, time, sys
 
 py.init()
 
@@ -53,20 +53,16 @@ def init_globals():
     cities = {}
     adj = []
 
-def update_screen(cities, city_states, call):
+def update_screen(cities, city_states, call, edges):
     screen.fill(colors.BLACK)
     draw_cities(cities, city_states)
 
-    # cities_pos_list = list(cities.keys())
-    # for i in len(edges):
-    #     for j in len(edges):
-    #         if edges[i][j] == 1:
-    #             py.draw.line(screen,colors.WHITE, cities_pos_list[i], cities_pos_list[j], 2)
+    cities_pos_list = list(cities.keys())
+    for i in range(len(edges)):
+        for j in range(len(edges)):
+            if edges[i][j] == 1:
+                py.draw.line(screen,colors.WHITE, cities_pos_list[i], cities_pos_list[j], 2)
 
-
-    for city_1 in cities.keys():
-        for city_2 in cities.keys():
-            py.draw.line(screen,colors.WHITE, city_1, city_2, 2)
     py.display.update()
     if call:
         py.time.delay(constants.WAIT)
@@ -110,16 +106,17 @@ def main():
         for i in range(len(adj)):
             update_city_state(i, city_states, colors.RED)
 
-        update_screen(cities, city_states, permute_call)
+        update_screen(cities, city_states, permute_call, [])
 
         #call permute if len >= 5
         if permute_call:
             n = len(adj)
-            nodes = [x for x in range(n)]
-            algo.init_globals(city_states, cities, adj)
-            algo.permute(0, n, nodes, adj)
+            visited=[False for i in range(n)]
+            algo2.init_globals(city_states, cities, adj)
+            path=[0]
+            algo2.findpath(0, visited, 0, path, n)
             run = False
-            print(algo.mini)
+            print(algo2.mini)
         
         
 if __name__ == "__main__":
