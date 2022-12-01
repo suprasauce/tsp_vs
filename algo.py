@@ -36,13 +36,14 @@ def permute(start,end,nodes,costmatrix):
     else:
         for i in range(start,end):
             nodes[start],nodes[i]=nodes[i],nodes[start]
-            # city_states[nodes[start]] = colors.LIGHT_PURPLE
-            # m.update_screen(cities, city_states)
+            city_states[nodes[start]] = colors.LIGHT_PURPLE
+            m.update_screen(cities, city_states,1)
             city_states[nodes[start]] = colors.GREEN
             m.update_screen(cities, city_states, 1)
             permute(start+1,end,nodes,costmatrix)
-            nodes[start],nodes[i]=nodes[i],nodes[start]
             city_states[nodes[start]] = colors.RED
+            nodes[start],nodes[i]=nodes[i],nodes[start]
+            
             m.update_screen(cities, city_states, 1)
             
 
